@@ -24,9 +24,10 @@ task deobfJar(type: Jar) {
     classifier = "deobf"
 }
 
+//Adds the artifact types added by this script to the actual artifacts list. 
 artifacts {
 
-    archives createDeobf
-    archives createSources
-    archives createJavadoc
+    archives sourcesJar
+    archives javadocJar
+    archives deobfJar
 }
