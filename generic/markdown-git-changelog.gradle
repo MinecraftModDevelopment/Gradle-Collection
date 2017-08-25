@@ -9,7 +9,7 @@
  - Git must be installed, and the the executor must have the required git perms. 
 */
 
-def getGitChangelog = { ->
+ext.getGitChangelog = { ->
     try {
         def stdout = new ByteArrayOutputStream()
         def gitHash = System.getenv('GIT_COMMIT')
