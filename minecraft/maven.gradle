@@ -1,5 +1,15 @@
-// 
-
+/*
+ This Gradle script provides the basic setup for uploading Minecraft mod artifacts to the MMD
+ Maven. While this code is specific to the MMD maven, it can be modified to fit your setup.
+ 
+ This script is set up to upload the following Jars to maven.
+ - The main compiled/obfuscated jar.
+ - The non obfuscated (deobf) jar.
+ - The source code jar.
+ - The JavaDoc jar.
+ 
+ This script also depends on the createSources, createJavadoc and createDeobf tasks existing.
+*/
 apply plugin: 'maven'
 
 publishing {
