@@ -14,17 +14,17 @@ publishing {
             from components.java
 
             // Adds the various artifacts 
-            artifact sourcesJar {
+            artifact createSources {
             
                 classifier 'sources'
             }
             
-            artifact javadocJar {
+            artifact createJavadoc {
             
                 classifier 'javadoc'
             }
             
-            artifact deobfJar {
+            artifact createDeobf {
             
                 classifier 'deobf'
             }
