@@ -12,7 +12,7 @@ buildscript {
   }
 }
 
-apply plugin: 'com.matthewprenger.cursegradle'
+apply plugin: 'com.matthewprenger.cursegradle.CurseGradlePlugin'
 
 curseforge {
 
