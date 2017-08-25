@@ -8,11 +8,10 @@
  - The source code jar.
  - The JavaDoc jar.
  
- This script also depends on the sourcesJar, javadocJar and deobfJar tasks existing. You 
- can get these here: 
- https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/minecraft/artifacts.gradle
+ Requirements!
+ - maven-publish Gradle plugin.
+ - https://github.com/MinecraftModDevelopment/Gradle-Collection/blob/master/minecraft/artifacts.gradle
 */
-apply plugin: 'maven'
 
 publishing {
 
