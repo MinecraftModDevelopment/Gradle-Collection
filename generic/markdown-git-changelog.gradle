@@ -35,7 +35,7 @@ def getGitChangelog = { ->
     }
 }
 
-ect {
+ext {
 
     getGitChangelog = this.&getGitChangelog
 }
