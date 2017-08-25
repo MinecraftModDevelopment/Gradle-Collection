@@ -23,3 +23,10 @@ task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = "deobf"
 }
+
+artifacts {
+
+    archives createDeobf
+    archives createSources
+    archives createJavadoc
+}
