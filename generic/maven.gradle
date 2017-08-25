@@ -2,8 +2,6 @@
 
 apply plugin: 'maven'
 
-def mavenURL = System.getenv('urlMaven')
-
 publishing {
 
     publications {
@@ -43,7 +41,7 @@ publishing {
                 password System.getenv('authMaven')
             }
             
-            url mavenURL
+            url System.getenv('urlMaven')
         }
     }
 }
