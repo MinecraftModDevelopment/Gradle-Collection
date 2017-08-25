@@ -1,6 +1,8 @@
-buildscript {
+buildscript {    
     repositories {
+    
         jcenter()
+        
         maven {
             url = 'https://oss.sonatype.org/content/groups/public'
         }
@@ -16,37 +18,37 @@ curseforge {
 
     apiKey = System.getenv('authCurse') ? System.getenv('authCurse') : '0';
     def versions = System.getenv('curseVersions').split(', ')
-    
+
     project {
 
-        id = "${id_curse}"   
+        id = "${id_curse}"
         releaseType = 'alpha'
         changelog = getGitChangelog
         changelogType = 'markdown'
-        
+
         versions.each {
-        
+
             addGameVersion "${it}"
         }
-        
-        if (System.getEnv('curseRequrements') {
-        
+
+        if (System.getEnv('curseRequrements')) {
+
             def requirements = System.getenv('curseRequirements').split(', ')
-            
+
             mainArtifact(jar) {
-          
+
                 relations {
-                
+
                     requirements.each {
-                    
-                        requiredLibrary "${it}"
+
+                       requiredLibrary "${it}"
                     }
                 }
             }
         }
-        
-        addArtifact(sourcesJar)
-        addArtifact(javadocJar)
+
+        addArtifact(sourcesJar) 
+        addArtifact(javadocJar) 
         addArtifact(deobfJar)
     }
 }
