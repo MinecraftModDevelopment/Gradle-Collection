@@ -8,7 +8,9 @@
  - The source code jar.
  - The JavaDoc jar.
  
- This script also depends on the createSources, createJavadoc and createDeobf tasks existing.
+ This script also depends on the sourceJar, javadocJar and deobfJar tasks existing. You 
+ can get these here: 
+ https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/minecraft/artifacts.gradle
 */
 apply plugin: 'maven'
 
@@ -24,17 +26,17 @@ publishing {
             from components.java
 
             // Adds the various artifacts 
-            artifact createSources {
+            artifact sourceJar {
             
                 classifier 'sources'
             }
             
-            artifact createJavadoc {
+            artifact javadocJar {
             
                 classifier 'javadoc'
             }
             
-            artifact createDeobf {
+            artifact deobfJar {
             
                 classifier 'deobf'
             }
