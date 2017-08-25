@@ -1,0 +1,47 @@
+// 
+
+apply plugin: 'maven'
+
+publishing {
+
+    publications {
+    
+        mavenJava(MavenPublication) {
+        
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+
+            // Adds the various artifacts 
+            artifact sourcesJar {
+            
+                classifier 'sources'
+            }
+            
+            artifact javadocJar {
+            
+                classifier 'javadoc'
+            }
+            
+            artifact deobfJar {
+            
+                classifier 'deobf'
+            }
+        }
+    }
+    
+    repositories {
+    
+        maven {
+        
+            credentials {
+            
+                username System.getenv('userMaven');
+                password System.getenv('authMaven')
+            }
+            
+            url System.getenv('urlMaven')
+        }
+    }
+}
