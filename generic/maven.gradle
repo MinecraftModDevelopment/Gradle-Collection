@@ -1,0 +1,52 @@
+/*
+ This Gradle script provides the basic setup for uploading artifacts to the MMD Maven.
+ While this code is specific to the MMD maven, it can be modified to fit your setup.
+ 
+ This script is set up to upload the following Jars to maven.
+ - The main compiled jar.
+ - The source code jar.
+ - The JavaDoc jar.
+ 
+ Requirements!
+ - maven-publish Gradle plugin.
+ - https://github.com/MinecraftModDevelopment/Gradle-Collection/blob/master/generic/artifacts.gradle
+*/
+
+publishing {
+
+    publications {
+    
+        mavenJava(MavenPublication) {
+        
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+
+            // Adds the various artifacts 
+            artifact sourcesJar {
+            
+                classifier 'sources'
+            }
+            
+            artifact javadocJar {
+            
+                classifier 'javadoc'
+            }
+        }
+    }
+    
+    repositories {
+    
+        maven {
+        
+            credentials {
+            
+                username System.getenv('userMaven')
+                password System.getenv('authMaven')
+            }
+            
+            url System.getenv('urlMaven')
+        }
+    }
+}
