@@ -48,11 +48,11 @@ publishing {
         
             credentials {
             
-                username System.getenv('userMaven')
-                password System.getenv('authMaven')
+                username findProperty('userMaven')
+                password findProperty('authMaven')
             }
             
-            url System.getenv('urlMaven')
+            url findProperty('urlMaven')
         }
     }
 }
