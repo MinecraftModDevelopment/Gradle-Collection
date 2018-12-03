@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 def getPledges() {
 
     def connection = new URL('https://www.patreon.com/api/oauth2/api/campaigns/' + System.getenv('patreonCampaignId') + '/pledges').openConnection() as HttpURLConnection
