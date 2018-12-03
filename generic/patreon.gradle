@@ -53,7 +53,7 @@ def getPledgeLog() {
     
     for (entry in getPledges()) {
     
-        pledgeInfo pledge = entry.value;
+        def pledge = entry.value;
         
         if (pledge.isValid()) {
         
