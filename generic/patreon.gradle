@@ -16,21 +16,25 @@ def getPledges() {
 */
 def getPledges(campaignId, authToken) {
 
+    // Connect to Patreon's API using the provided auth info.
     def connection = new URL('https://www.patreon.com/api/oauth2/api/campaigns/' + campaignId + '/pledges').openConnection() as HttpURLConnection
-
     connection.setRequestProperty('User-Agent', 'Patreon-Groovy, platform ' + System.properties['os.name'] + ' ' + System.properties['os.version'])
     connection.setRequestProperty('Authorization', 'Bearer ' + authToken)
     connection.setRequestProperty('Accept', 'application/json')
     
-            
+    // Map containing all pledges. If the connection fails this will be empty.
     Map<String, Pledge> pledges = new HashMap<String, Pledge>()
-        
+    
+    // Check if connection was valid.
     if (connection.responseCode == 200) {
     
+        // Parse the response into an ambiguous json object.
         def json = connection.inputStream.withCloseable {inStream -> new JsonSlurper().parse(inStream as InputStream)}
         
+        // Iterate all the pledge entries
         for (pledgeInfo in json.data) {
             
+            // Create new pledge entry, and set pledge specific info.
             def pledge = new Pledge()
             pledge.id = pledgeInfo.relationships.patron.data.id
             pledge.amountInCents = pledgeInfo.attributes.amount_cents
@@ -38,10 +42,13 @@ def getPledges(campaignId, authToken) {
             pledges.put(pledge.id, pledge)
         }
         
+        // Iterate all the user entries
         for (pledgeInfo in json.included) {
         
+            // Get pledge by user ID
             def pledge = pledges.get(pledgeInfo.id)
             
+            // If the pledge exists, set the user data.
             if (pledge != null) {
                 
                 def info = pledgeInfo.attributes;
