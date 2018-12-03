@@ -48,7 +48,6 @@ def getPledges() {
 
 def getPledgeLog() {
     
-    def newLine = System.properties['line.separator']
     def pledgeLog = ''
     
     for (entry in getPledges()) {
@@ -57,7 +56,7 @@ def getPledgeLog() {
         
         if (pledge.isValid()) {
         
-            pledgeLog += '- ' + pledge.getDisplayName() + newLine
+            pledgeLog += '- ' + pledge.getDisplayName() + '\n'
         }
     }
     
