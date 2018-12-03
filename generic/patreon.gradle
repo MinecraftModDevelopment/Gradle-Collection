@@ -111,5 +111,5 @@ class Pledge {
 
 ext {
     getPledges = this.&getPledges
-    getPledgeLog = this&getPledgeLog
+    getPledgeLog = this.&getPledgeLog
 }
