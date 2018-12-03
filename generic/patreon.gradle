@@ -1,0 +1,113 @@
+def getPledges() {
+
+    def connection = new URL('https://www.patreon.com/api/oauth2/api/campaigns/' + System.getenv('patreonCampaignId') + '/pledges').openConnection() as HttpURLConnection
+
+    connection.setRequestProperty('User-Agent', 'Patreon-Groovy, platform ' + System.properties['os.name'] + ' ' + System.properties['os.version'])
+    connection.setRequestProperty('Authorization', 'Bearer ' + System.getenv('patreonAuthToken'))
+    connection.setRequestProperty('Accept', 'application/json')
+    
+            
+    Map<String, Pledge> pledges = new HashMap<String, Pledge>()
+        
+    if (connection.responseCode == 200) {
+    
+        def json = connection.inputStream.withCloseable {inStream -> new JsonSlurper().parse(inStream as InputStream)}
+        
+        for (pledgeInfo in json.data) {
+            
+            def pledge = new Pledge()
+            pledge.id = pledgeInfo.relationships.patron.data.id
+            pledge.amountInCents = pledgeInfo.attributes.amount_cents
+            pledge.declined = pledgeInfo.attributes.declined_since
+            pledges.put(pledge.id, pledge)
+        }
+        
+        for (pledgeInfo in json.included) {
+        
+            def pledge = pledges.get(pledgeInfo.id)
+            
+            if (pledge != null) {
+                
+                def info = pledgeInfo.attributes;
+                
+                pledge.email = info.email
+                pledge.name = info.full_name
+                pledge.vanityName = info.vanity
+                pledge.imgUrl = info.thumb_url
+                pledge.twitter = info.twitter
+                pledge.twitchUrl = info.twitch
+                pledge.youtubeUrl = info.youtube
+            }
+        }
+    }
+    
+    return pledges;
+}
+
+def getPledgeLog() {
+    
+    def newLine = System.properties['line.separator']
+    def pledgeLog = ''
+    
+    for (entry in getPledges()) {
+    
+        pledgeInfo pledge = entry.value;
+        
+        if (pledge.isValid()) {
+        
+            pledgeLog += '- ' + pledge.getDisplayName() + newLine
+        }
+    }
+    
+    return pledgeLog
+}
+
+class Pledge {
+
+    // The ID for this user in Patreon's system.
+    def id
+    
+    // The amount this user is currently paying in USD cents.
+    def amountInCents
+    
+    // The date they declined. This will be null if they haven't declined.
+    def declined
+    
+    // The email of the user.
+    def email
+    
+    // The full name of the user.
+    def name
+    
+    // The vanity name of the user, like a display name.
+    def vanityName
+    
+    // A url to the users profile image.
+    def imgUrl
+    
+    // The user's twitter handle.
+    def twitter
+    
+    // The user's twitch channel.
+    def twitchUrl
+    
+    // The user's youtube channel.
+    def youtubeUrl
+    
+    // Checks if the patreon is a valid and paying patreon member.
+    def isValid() {
+    
+        return declined == null && amountInCents > 0;
+    }
+    
+    // Gets the display name for the user.
+    def getDisplayName() {
+    
+        return vanityName != null ? vanityName : name;
+    }
+}
+
+ext {
+    getPledges = this.&getPledges
+    getPledgeLog = this&getPledgeLog
+}
