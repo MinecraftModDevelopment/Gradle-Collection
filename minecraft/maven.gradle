@@ -1,57 +1,52 @@
 /*
- This Gradle script provides the basic setup for uploading Minecraft mod artifacts to the MMD
- Maven. While this code is specific to the MMD maven, it can be modified to fit your setup.
+ This Gradle script provides the basic setup for uploading Minecraft mod artifacts to a Maven.
  
  This script is set up to upload the following Jars to maven.
- - The main compiled/obfuscated jar.
+ - The compiled/obfuscated jar.
  - The non obfuscated (deobf) jar.
  - The source code jar.
  - The JavaDoc jar.
  
  Requirements!
- - maven-publish Gradle plugin.
+ - maven-publish Gradle plugin must be applied in your build script.
  - https://github.com/MinecraftModDevelopment/Gradle-Collection/blob/master/minecraft/artifacts.gradle
+ - The urlMaven, userMaven, and authMaven must be mapped to valid properties.
 */
 
 publishing {
-
     publications {
-    
         mavenJava(MavenPublication) {
-        
             groupId project.group
             artifactId project.archivesBaseName
             version project.version
             from components.java
 
-            // Adds the various artifacts 
+            // Adds the sources as an artifact.
             artifact sourcesJar {
-            
                 classifier 'sources'
             }
-            
+
+            // Adds the javadocs as an artifact.
             artifact javadocJar {
-            
                 classifier 'javadoc'
             }
-            
+
+            // Adds the deobfuscated jar as an artifact.
             artifact deobfJar {
-            
                 classifier 'deobf'
             }
         }
     }
-    
+
     repositories {
-    
         maven {
-        
+            // Sets the login credentials for your maven.
             credentials {
-            
                 username findProperty('userMaven')
                 password findProperty('authMaven')
             }
-            
+
+            // Sets the maven URL
             url findProperty('urlMaven')
         }
     }
