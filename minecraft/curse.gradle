@@ -1,15 +1,16 @@
 buildscript {
-  repositories {
-    
-    jcenter()
-    
+    repositories {
+        jcenter()
+        mavenCentral()
+
     maven {
       url 'https://plugins.gradle.org/m2/'
     }
   }
-  dependencies {
-    classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.1.0'
-  }
+
+    dependencies {
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.3.0'
+    }
 }
 
 apply plugin: 'com.matthewprenger.cursegradle.CurseGradlePlugin'
@@ -20,14 +21,12 @@ curseforge {
     def versions = System.getenv('curseVersions').split(', ')
 
     project {
-
         id = "${id_curse}"
         releaseType = 'alpha'
         changelog = getGitChangelog
         changelogType = 'markdown'
 
         versions.each {
-
             addGameVersion "${it}"
         }
 
@@ -36,19 +35,16 @@ curseforge {
             def requirements = System.getenv('curseRequirements').split(', ')
 
             mainArtifact(jar) {
-
                 relations {
-
                     requirements.each {
-
-                       requiredLibrary "${it}"
+                        requiredLibrary "${it}"
                     }
                 }
             }
         }
 
-        addArtifact(sourcesJar) 
-        addArtifact(javadocJar) 
+        addArtifact(sourcesJar)
+        addArtifact(javadocJar)
         addArtifact(deobfJar)
     }
 }
