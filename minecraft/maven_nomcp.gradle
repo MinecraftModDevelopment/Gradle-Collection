@@ -53,6 +53,10 @@ publishing {
             artifact deobfJar {
                 classifier 'deobf'
             }
+            
+            artifact forgelibJar {
+                classifier 'forgelib'
+            }
         }
     }
 
