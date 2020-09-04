@@ -28,6 +28,7 @@ def getGitChangelog() {
                 commandLine 'git', 'log', '--pretty=tformat:- %s - %aN', '-1', '' + gitHash
                 standardOutput = stdout
             }
+            return stdout.toString().trim()
         }
         else if(travisRange) {
             exec {
