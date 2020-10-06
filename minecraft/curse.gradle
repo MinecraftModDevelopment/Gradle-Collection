@@ -30,7 +30,7 @@ curseforge {
             addGameVersion "${it}"
         }
 
-        if (System.getEnv('curseRequrements')) {
+        if (System.getEnv('curseRequirements')) {
 
             def requirements = System.getenv('curseRequirements').split(', ')
 
