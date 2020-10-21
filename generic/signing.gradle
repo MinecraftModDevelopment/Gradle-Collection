@@ -1,0 +1,17 @@
+/*
+This Gradle script takes advantage of an OpenPGP signature to apply to all artifacts generated.
+
+Requirements:
+ - You need a valid OpenPGP key pair.
+   https://www.cryptnet.net/fdp/crypto/keysigning_party/en/keysigning_party.html
+ - `signing` Gradle plugin must be applied in your build script.
+   https://github.com/MinecraftModDevelopment/Gradle-Collection/blob/master/generic/artifacts.gradle
+ - signing.keyId, signing.password, signing.secretKeyRingFile must be valid properties based of your OpenPGP key pair. These properties should be set in your user `gradle.properties` or via the command line when executing.
+   https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
+
+ - You can use the official documentation if you plan on using a different configuration of what will be mentioned below.
+   https://docs.gradle.org/current/userguide/signing_plugin.html
+*/
+signing {
+    sign configurations.archives
+}
